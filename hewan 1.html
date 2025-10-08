@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TEKA-TEKI</title>
+  <style>
+    :root{font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;}
+    body{display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:linear-gradient(135deg,#f7fbff,#e7f3ff);}
+    .card{background:white;padding:28px;border-radius:12px;box-shadow:0 8px 30px rgba(16,24,40,0.08);max-width:520px;width:92%}
+    h1{margin:0 0 12px 0;font-size:28px;letter-spacing:1px;text-align:center}
+    p.riddle{background:#fbfcff;border-radius:8px;padding:14px;margin:12px 0;font-size:16px}
+    .controls{display:flex;gap:8px;margin-top:10px}
+    input[type="text"]{flex:1;padding:10px 12px;border:1px solid #d6dee9;border-radius:8px;font-size:16px}
+    button{padding:10px 14px;border-radius:8px;border:0;background:#2563eb;color:white;font-weight:600;cursor:pointer}
+    .feedback{margin-top:14px;padding:10px;border-radius:8px;font-size:15px;display:none}
+    .correct{background:#ecffef;color:#065f46;border:1px solid #bbf7d0}
+    .wrong{background:#fff1f2;color:#991b1b;border:1px solid #fecaca}
+    .hint{margin-top:8px;color:#475569;font-size:14px}
+    footer{margin-top:14px;text-align:center;color:#64748b;font-size:13px}
+  </style>
+</head>
+<body>
+  <main class="card" role="main">
+    <h1>TEKA-TEKI</h1>
+
+    <p class="riddle">"Aku adalah seekor hewan. Jumlah kakiku ada empat buah. Aku memiliki ekor. Aku juga memiliki belalai. Siapakah aku?"</p>
+
+    <label for="answer" style="display:block;margin-bottom:6px;font-weight:600">Jawaban:</label>
+    <div class="controls">
+      <input id="answer" type="text" placeholder="Tulis jawaban Anda di sini..." aria-label="jawaban teka-teki">
+      <button id="checkBtn">Periksa</button>
+    </div>
+
+    <div id="feedback" class="feedback" role="status" aria-live="polite"></div>
+    <p class="hint">Catatan: Jawaban yang benar adalah <em>Gajah</em>. Sistem menerima variasi huruf besar/kecil.</p>
+    <footer>Selamat mencoba!</footer>
+  </main>
+
+  <script>
+    (function(){
+      const input = document.getElementById('answer');
+      const btn = document.getElementById('checkBtn');
+      const fb = document.getElementById('feedback');
+
+      function normalize(s){
+        return s.trim().toLowerCase();
+      }
+
+      function showFeedback(isCorrect){
+        fb.style.display = 'block';
+        if(isCorrect){
+          fb.className = 'feedback correct';
+          fb.textContent = 'Jawaban Anda benar, hebat';
+        } else {
+          fb.className = 'feedback wrong';
+          fb.textContent = 'Jawaban Anda salah, silahkan coba lagi.';
+        }
+      }
+
+      btn.addEventListener('click', ()=>{
+        const val = normalize(input.value || '');
+        if(!val){
+          fb.style.display = 'block';
+          fb.className = 'feedback wrong';
+          fb.textContent = 'Masukkan jawaban terlebih dahulu.';
+          return;
+        }
+        // Terima 'gajah' dalam segala variasi huruf
+        showFeedback(val === 'gajah');
+      });
+
+      // Submit juga saat tekan Enter
+      input.addEventListener('keydown', (e)=>{
+        if(e.key === 'Enter'){
+          e.preventDefault();
+          btn.click();
+        }
