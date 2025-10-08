@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mengurutkan Kata Bahasa Inggris</title>
+<style>
+body {
+background-color: #006400; /* hijau tua */
+font-family: Arial, sans-serif;
+color: black;
+text-align: center;
+padding: 30px;
+}
+
+.container {
+background-color: #90EE90; /* hijau muda */
+padding: 20px;
+border-radius: 15px;
+display: inline-block;
+}
+
+#word-bank {
+display: flex;
+justify-content: center;
+flex-wrap: wrap;
+gap: 10px;
+margin-bottom: 20px;
+}
+
+.word {
+background-color: white;
+border: 2px solid #006400;
+border-radius: 10px;
+padding: 10px 15px;
+cursor: grab;
+font-weight: bold;
+}
+
+textarea {
+width: 90%;
+height: 80px;
+border-radius: 10px;
+border: 2px solid #006400;
+background-color: white;
+font-size: 18px;
+padding: 10px;
+}
+
+button {
+background-color: #006400;
+color: white;
+font-weight: bold;
+border: none;
+padding: 10px 20px;
+margin: 10px;
+border-radius: 8px;
+cursor: pointer;
+}
+
+button:hover {
+background-color: #004d00;
+}
+
+#feedback {
+font-size: 18px;
+font-weight: bold;
+margin-top: 15px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>Urutkan Kata Bahasa Inggris dengan Drag dan Drop</h2>
+<p>Susun kata menjadi kalimat yang benar: <b>I am going to the market</b></p>
+
+<div id="word-bank"></div>
+
+<textarea id="sentence" placeholder="Tarik kata ke sini..."></textarea><br>
+
+<button onclick="checkAnswer()">Hasil</button>
+<button onclick="resetGame()">Reset</button>
+
+<div id="feedback"></div>
+</div>
+
+<script>
+const correctSentence = "I am going to the market";
+let words = ["I", "am", "going", "to", "the", "market"];
+
+const wordBank = document.getElementById("word-bank");
+const sentenceArea = document.getElementById("sentence");
+
+// Fungsi untuk mengacak kata
+function shuffle(array) {
+return array.sort(() => Math.random() - 0.5);
+}
+
+// Menampilkan kata di area bank
+function displayWords() {
+wordBank.innerHTML = "";
+shuffle(words).forEach(word => {
+const span = document.createElement("div");
+span.classList.add("word");
+span.textContent = word;
+span.draggable = true;
+span.addEventListener("dragstart", dragStart);
+wordBank.appendChild(span);
+});
+}
+
+function dragStart(e) {
+e.dataTransfer.setData("text", e.target.textContent);
+e.target.style.opacity = "0.5";
+}
+
+sentenceArea.addEventListener("dragover", (e) => e.preventDefault());
+
+sentenceArea.addEventListener("drop", (e) => {
+e.preventDefault();
+const word = e.dataTransfer.getData("text");
+sentenceArea.value += (sentenceArea.value ? " " : "") + word;
+// Hilangkan kata yang sudah dipindah
+const allWords = document.querySelectorAll(".word");
+allWords.forEach(w => {
+if (w.textContent === word) w.remove();
+});
+});
+
+function checkAnswer()
+
+
+
+.html
